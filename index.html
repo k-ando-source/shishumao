@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>ししゅまお｜刺しゅうの下絵づくり</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="写真やスクショから、輪郭と線だけを取り出して白背景＋黒線の刺しゅう下絵をつくるアプリ。画像は端末の中だけで処理されます。">
+<meta name="theme-color" content="#EEF0F4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ししゅまお">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="appbar">
+  <img class="appbar__icon" src="assets/icon-512.png" alt="">
+  <div class="appbar__text">
+    <h1>ししゅまお</h1>
+    <p>しゃしんを、ぬいとりの下絵に。</p>
+  </div>
+</header>
+
+<main>
+  <!-- ① 画像えらび -->
+  <section id="picker" class="card picker">
+    <div class="mascot" id="mascot"></div>
+    <p class="bubble">ここに しゃしんを おとして。</p>
+    <div class="picker__btns">
+      <label class="btn btn--primary">
+        写真をえらぶ
+        <input id="fileInput" type="file" accept="image/*">
+      </label>
+      <label class="btn btn--ghost">
+        カメラで撮る
+        <input id="cameraInput" type="file" accept="image/*" capture="environment">
+      </label>
+    </div>
+    <p class="note">JPEG・PNG・HEIC／スクショもOK。<br>画像は<b>この端末の中だけ</b>で処理され、どこにも送信されません。</p>
+  </section>
+
+  <!-- ② 編集 -->
+  <section id="editor" class="editor" hidden>
+    <div class="card stage">
+      <div class="stage__view">
+        <img id="result" alt="生成された下絵">
+        <img id="original" alt="" hidden>
+        <div class="stage__busy" id="busy"><span class="spinner"></span>したえ、つくり中…</div>
+      </div>
+      <div class="stage__bar">
+        <button class="chip" id="compareBtn" type="button">押すと元画像</button>
+        <span class="stage__size" id="sizeLabel"></span>
+      </div>
+    </div>
+
+    <div class="card controls">
+      <div class="field">
+        <span class="field__label">とりこみ方</span>
+        <div class="seg" id="modeSeg" role="group" aria-label="とりこみ方">
+          <button type="button" data-mode="sketch" class="is-on">なめらか線画</button>
+          <button type="button" data-mode="outline">くっきり輪郭</button>
+          <button type="button" data-mode="flat">文字・スクショ</button>
+        </div>
+        <p class="field__hint" id="modeHint">イラストや人物写真に。やわらかい手描き風の線になります。</p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="density">線の量 <span class="val" id="densityVal">50</span></label>
+        <input type="range" id="density" min="0" max="100" value="50">
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="detail">こまかさ <span class="val" id="detailVal">50</span></label>
+        <input type="range" id="detail" min="0" max="100" value="50">
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="thickness">線の太さ <span class="val" id="thicknessVal">1</span></label>
+        <input type="range" id="thickness" min="1" max="4" value="1">
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="denoise">ノイズ消し <span class="val" id="denoiseVal">30</span></label>
+        <input type="range" id="denoise" min="0" max="100" value="30">
+      </div>
+
+      <div class="field field--row">
+        <label class="switch"><input type="checkbox" id="invert"><span></span>白線にする</label>
+        <button type="button" class="chip chip--reset" id="resetBtn">おまかせに戻す</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn--primary" id="saveBtn">下絵を保存</button>
+      <label class="btn btn--ghost">
+        べつの写真
+        <input id="fileInput2" type="file" accept="image/*">
+      </label>
+    </div>
+    <p class="note note--save">保存できないときは、上の下絵を<b>長押し →「"写真"に追加」</b>でも保存できます。</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>ししゅまお</span>
+  <span class="foot__umu">うむ。</span>
+</footer>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="js/lineart.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
